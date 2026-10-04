@@ -111,13 +111,13 @@ The analyzer saves captured traffic as a PCAP file, which was subsequently analy
 
 ### TCP Traffic Analysis
 
-![TCP Traffic Analysis](screenshots/tcp-analysis.png)
+![TCP Traffic Analysis](Screenshots/tcp-analysis.png)
 
 Captured TCP traffic was inspected to verify source and destination addresses, port numbers, packet length, and TCP flags.
 
 ### TCP Port Scan Investigation
 
-![TCP Port Scan Investigation](screenshots/port-scan-analysis.png)
+![TCP Port Scan Investigation](Screenshots/port-scan-analysis.png)
 
 TCP SYN packets generated during the controlled Nmap scan were examined to validate the port-scan detection.
 
@@ -125,7 +125,7 @@ The investigation focused on connection attempts with the **SYN flag set and ACK
 
 ### DNS Traffic Analysis
 
-![DNS Traffic Analysis](screenshots/dns-analysis.png)
+![DNS Traffic Analysis](Screenshots/dns-analysis.png)
 
 A captured DNS query was inspected to verify the source and destination addresses, UDP ports, and DNS query information.
 
