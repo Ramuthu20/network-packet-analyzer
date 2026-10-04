@@ -1,0 +1,41 @@
+=== Network Traffic Analysis Report ===
+
+Total packets: 402
+
+=== Protocol Distribution ===
+TCP         : 351
+UDP         : 12
+ICMP        : 10
+ARP         : 2
+DNS         : 10
+Other IP    : 0
+
+=== Top TCP Destination Ports ===
+Port 80   : 9 packets
+Port 58100: 5 packets
+Port 68   : 3 packets
+Port 64   : 3 packets
+Port 94   : 3 packets
+Port 92   : 3 packets
+Port 69   : 3 packets
+Port 40   : 3 packets
+Port 37   : 3 packets
+Port 86   : 3 packets
+
+=== Top Communicating Hosts ===
+10.0.2.15 -> 10.0.2.2: 182 packets
+10.0.2.2 -> 10.0.2.15: 166 packets
+10.0.2.15 -> 91.189.91.57: 5 packets
+91.189.91.57 -> 10.0.2.15: 5 packets
+10.0.2.15 -> 91.189.91.112: 2 packets
+91.189.91.112 -> 10.0.2.15: 2 packets
+10.0.2.15 -> 91.189.91.98: 2 packets
+91.189.91.98 -> 10.0.2.15: 1 packets
+10.0.2.15 -> 185.125.190.122: 1 packets
+185.125.190.122 -> 10.0.2.15: 1 packets
+
+=== Anomaly Detection ===
+TCP port scans          : 1
+ICMP anomalies          : 0
+ARP anomalies           : 0
+DNS anomalies           : 0

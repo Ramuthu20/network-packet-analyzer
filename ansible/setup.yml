@@ -1,0 +1,15 @@
+---
+- name: Set up Network Packet Analyzer
+  hosts: analyzer
+
+  tasks:
+
+    - name: Create Python virtual environment
+      command:
+        cmd: python3 -m venv /home/ramuthu/network-packet-analyzer/venv
+        creates: /home/ramuthu/network-packet-analyzer/venv/bin/python
+
+    - name: Install Scapy
+      pip:
+        name: scapy
+        virtualenv: /home/ramuthu/network-packet-analyzer/venv
