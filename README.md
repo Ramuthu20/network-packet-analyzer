@@ -2,44 +2,44 @@
 
 A Python-based network traffic analysis tool built with **Scapy** for live packet capture, protocol identification, traffic analysis, anomaly detection, and automated reporting.
 
-The project was developed in an Ubuntu virtual machine and validated using **Wireshark** and **Nmap**. Ansible was used to automate the project environment setup.
+The project was developed and tested in an Ubuntu virtual machine, with **Wireshark** used for packet-level investigation and **Nmap** used for controlled traffic generation. **Ansible** was used to automate the project environment setup.
 
 ---
 
 ## Overview
 
-The analyzer provides a lightweight workflow for observing and investigating network traffic:
+The project implements a practical network traffic analysis workflow:
 
 ```text
-Live Traffic
-     │
-     ▼
-Packet Capture
-     │
-     ▼
-Protocol & Traffic Analysis
-     │
-     ▼
-Anomaly Detection
-     │
-     ├──────────────► capture.pcap
-     │
-     ▼
-Automated Report
-     │
-     ▼
+Live Network Traffic
+        │
+        ▼
+   Packet Capture
+        │
+        ▼
+Traffic & Protocol Analysis
+        │
+        ▼
+  Anomaly Detection
+        │
+        ├──────────────► capture.pcap
+        │
+        ▼
+ Automated Report
+        │
+        ▼
 Wireshark Investigation
 ```
 
 ### Key Capabilities
 
 * Live packet capture using Scapy
-* TCP, UDP, ICMP, ARP and DNS identification
+* TCP, UDP, ICMP, ARP, and DNS identification
 * Host communication tracking
 * TCP destination port analysis
 * Rule-based anomaly detection
-* PCAP generation for further investigation
-* Automated traffic analysis reports
+* PCAP generation
+* Automated traffic analysis reporting
 * Wireshark-based packet investigation
 * Ansible-based environment setup
 
@@ -47,16 +47,16 @@ Wireshark Investigation
 
 ## Detection Capabilities
 
-The analyzer implements four lightweight detection mechanisms:
+The analyzer implements four rule-based detection mechanisms:
 
-| Detection             | Method                                                                                      |
-| --------------------- | ------------------------------------------------------------------------------------------- |
-| **TCP Port Scan**     | Detects multiple unique TCP destination ports contacted by the same source/destination pair |
-| **ICMP Anomaly**      | Detects an ICMP traffic spike above a configured threshold                                  |
-| **ARP Inconsistency** | Detects changes in the observed IP-to-MAC relationship                                      |
-| **DNS Anomaly**       | Detects unusually high DNS request activity from a source                                   |
+| Detection             | Approach                                                                   |
+| --------------------- | -------------------------------------------------------------------------- |
+| **TCP Port Scan**     | Tracks unique TCP destination ports contacted by a source/destination pair |
+| **ICMP Anomaly**      | Detects an ICMP traffic spike above a configured threshold                 |
+| **ARP Inconsistency** | Detects changes in an observed IP-to-MAC relationship                      |
+| **DNS Anomaly**       | Detects unusually high DNS request activity from a source                  |
 
-Detection thresholds are configurable directly in `analyzer.py`.
+Detection thresholds are configurable in `analyzer.py`.
 
 ---
 
@@ -68,19 +68,19 @@ A controlled TCP port scan was generated using Nmap:
 nmap -sT -Pn -p 20-100 10.0.2.2
 ```
 
-The analyzer successfully detected the test activity:
+The analyzer detected the generated scan:
 
 ```text
 TCP port scans : 1
 ```
 
-The generated traffic was then investigated in Wireshark to verify the packet-level behavior.
+The resulting packets were subsequently investigated in Wireshark to validate the detection at packet level.
 
 ---
 
 ## Results
 
-A representative capture contained **402 packets**:
+A representative capture contained **402 packets**.
 
 | Protocol | Packets |
 | -------- | ------: |
@@ -90,7 +90,7 @@ A representative capture contained **402 packets**:
 | ARP      |       2 |
 | DNS      |      10 |
 
-### Detection Results
+### Anomaly Detection Results
 
 ```text
 TCP port scans : 1
@@ -101,21 +101,43 @@ DNS anomalies  : 0
 
 The detected TCP port scan corresponds to the controlled Nmap test.
 
-DNS is reported separately for analysis purposes while also being part of the UDP traffic count.
+DNS is reported separately for analysis purposes while also being included within the UDP traffic count.
 
 ---
 
-## Wireshark Investigation
+## Evidence & Investigation
 
-The analyzer saves captured traffic as a PCAP file, which was subsequently analyzed in Wireshark.
+The project includes evidence from both the custom packet analyzer and subsequent Wireshark investigation.
 
-### TCP Traffic Analysis
+### Packet Analyzer in Action
+
+The analyzer captures live network traffic, identifies protocols, and provides real-time anomaly alerts.
+
+![Packet Analyzer Running](Screenshots/analyzer-running.png)
+
+### Automated Analysis Report
+
+After packet capture is stopped, the analyzer generates a structured report containing traffic statistics, communicating hosts, TCP destination ports, and anomaly detection results.
+
+![Automated Analysis Report](Screenshots/analysis-report.png)
+
+### Final Analysis Summary
+
+The terminal summary provides an overview of the captured traffic and detected anomalies after the capture is completed.
+
+![Final Analysis Summary](Screenshots/final-summary.png)
+
+### Wireshark Investigation
+
+The generated `capture.pcap` file was analyzed in Wireshark to investigate and validate the captured traffic.
+
+#### TCP Traffic Analysis
 
 ![TCP Traffic Analysis](Screenshots/tcp-analysis.png)
 
 Captured TCP traffic was inspected to verify source and destination addresses, port numbers, packet length, and TCP flags.
 
-### TCP Port Scan Investigation
+#### TCP Port Scan Investigation
 
 ![TCP Port Scan Investigation](Screenshots/port-scan-analysis.png)
 
@@ -123,7 +145,7 @@ TCP SYN packets generated during the controlled Nmap scan were examined to valid
 
 The investigation focused on connection attempts with the **SYN flag set and ACK flag not set**.
 
-### DNS Traffic Analysis
+#### DNS Traffic Analysis
 
 ![DNS Traffic Analysis](Screenshots/dns-analysis.png)
 
@@ -133,14 +155,14 @@ A captured DNS query was inspected to verify the source and destination addresse
 
 ## Automated Reporting
 
-After packet capture is stopped, the analyzer generates:
+When packet capture is stopped, the analyzer generates:
 
 ```text
 capture.pcap
 analysis_report.txt
 ```
 
-The automated report includes:
+The analysis report contains:
 
 * Total packet count
 * Protocol distribution
@@ -148,18 +170,18 @@ The automated report includes:
 * Top communicating hosts
 * Anomaly detection results
 
-This allows the captured traffic to be preserved as evidence while also producing a concise analysis summary.
+The PCAP file preserves the captured traffic for further investigation in Wireshark.
 
 ---
 
-## Automation with Ansible
+## Ansible Automation
 
 Ansible is used to automate the project environment setup.
 
 The playbook:
 
 1. Creates the Python virtual environment.
-2. Installs the required Scapy dependency.
+2. Installs Scapy in the virtual environment.
 
 Inventory:
 
@@ -174,19 +196,17 @@ The playbook is designed to be **idempotent**, allowing it to be executed repeat
 
 ## Development Environment
 
-The project was developed and tested using:
-
-| Component            | Environment |
-| -------------------- | ----------- |
-| Operating System     | Ubuntu      |
-| Python               | 3.14.4      |
-| Packet Analysis      | Scapy 2.8.0 |
-| Network Interface    | `enp0s3`    |
-| Virtualization       | VirtualBox  |
-| Network Mode         | NAT         |
-| Packet Investigation | Wireshark   |
-| Traffic Testing      | Nmap        |
-| Automation           | Ansible     |
+| Component               | Technology / Environment |
+| ----------------------- | ------------------------ |
+| Operating System        | Ubuntu                   |
+| Programming Language    | Python 3.14.4            |
+| Packet Analysis Library | Scapy 2.8.0              |
+| Virtualization          | VirtualBox               |
+| Network Mode            | NAT                      |
+| Packet Investigation    | Wireshark                |
+| Traffic Testing         | Nmap                     |
+| Automation              | Ansible                  |
+| Version Control         | Git / GitHub             |
 
 The generated PCAP was temporarily transferred from the Ubuntu guest to the Windows host using a Python HTTP server and VirtualBox NAT port forwarding before being analyzed in Wireshark.
 
@@ -203,14 +223,14 @@ git clone https://github.com/Ramuthu20/network-packet-analyzer.git
 cd network-packet-analyzer
 ```
 
-Create the Python virtual environment:
+Create and activate the Python virtual environment:
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-Install dependencies:
+Install the required dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -241,7 +261,10 @@ network-packet-analyzer/
 │   ├── hosts.ini
 │   └── setup.yml
 │
-└── screenshots/
+└── Screenshots/
+    ├── analyzer-running.png
+    ├── analysis-report.png
+    ├── final-summary.png
     ├── tcp-analysis.png
     ├── port-scan-analysis.png
     └── dns-analysis.png
@@ -266,7 +289,7 @@ network-packet-analyzer/
 * DNS
 * Network Troubleshooting
 
-### Tools
+### Tools & Automation
 
 * Scapy
 * Wireshark
@@ -282,16 +305,10 @@ network-packet-analyzer/
 
 ## Project Scope
 
-This project is intentionally implemented as a lightweight, explainable network analysis tool rather than a full enterprise monitoring or intrusion detection platform.
+This project is intentionally implemented as a lightweight and explainable network analysis tool rather than a full enterprise monitoring or intrusion detection platform.
 
 The current implementation focuses on:
 
 **Capture → Analyze → Detect → Investigate → Report**
 
-Future development could include:
-
-* Configurable capture durations
-* Additional detection rules
-* Historical traffic storage
-* Traffic visualization
-* Remote network monitoring
+Potential future improvements include configurable capture durations, additional detection rules, historical traffic storage, traffic visualization, and remote network monitoring.
